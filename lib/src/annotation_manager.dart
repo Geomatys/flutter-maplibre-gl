@@ -55,6 +55,12 @@ abstract class AnnotationManager<T extends Annotation> {
     }
   }
 
+  /// This function is a temporary fix due to the layer order not currently
+  /// handled by the flutter adapter
+  Future<void> rebuildLayers() async {
+    await _rebuildLayers();
+  }
+
   _onFeatureTapped(dynamic id, Point<double> point, LatLng coordinates) {
     final annotation = _idToAnnotation[id];
     if (annotation != null) {
