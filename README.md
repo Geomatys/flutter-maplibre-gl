@@ -7,11 +7,18 @@ This Flutter plugin allows to show **embedded interactive and customizable vecto
 For the Android and iOS integration, we use [maplibre-gl-native](https://github.com/maplibre/maplibre-gl-native). For web, we rely on [maplibre-gl-js](https://github.com/maplibre/maplibre-gl-js). This project only supports a subset of the API exposed by these libraries. 
 
 
-This project is a fork of [https://github.com/tobrun/flutter-mapbox-gl](https://github.com/tobrun/flutter-mapbox-gl), replacing its usage of Mapbox GL libraries with the open source [Maplibre GL](https://github.com/maplibre) libraries.
+This project is a fork of [https://github.com/m0nac0/flutter-maplibre-gl](https://github.com/m0nac0/flutter-maplibre-gl), which is already forking [https://github.com/tobrun/flutter-mapbox-gl](https://github.com/tobrun/flutter-mapbox-gl), replacing its usage of Mapbox GL libraries with the open source [Maplibre GL](https://github.com/maplibre) libraries.
+
+The objective of this fork (mariusvn/flutter-maplibre-gl) is to allow a deeper access to maplibre for advanced use including access to annotations layers. It also fixes a few bugs
 
 **Please note that this project is community driven and is not affiliated with the company Mapbox.** <br>
 It does use some of their amazing open source libraries/tools, though. Thank you, Mapbox, for all the open-source work you do!
 
+## Current branch organization
+
+Currently, the featured branch is geomatys (which is the name of the company I work for). main is kept in place to get the m0nac0's repo modifications
+
+This will change soon for sure (I would say around december 2022) to use main as the main branch
 
 ## Using the plugin in your project
 
@@ -22,11 +29,11 @@ dependencies:
     ...
     maplibre_gl:
       git:
-        url: https://github.com/m0nac0/flutter-maplibre-gl.git
-        ref: main
+        url: https://github.com/mariusvn/flutter-maplibre-gl.git
+        ref: geomatys
 ```
 This will get you the very latest changes from the main branch.
-You can replace `main` with the name of the [latest release](https://github.com/m0nac0/flutter-maplibre-gl/releases)
+You can replace `geomatys` with the name of the [latest release](https://github.com/mariusvnh/flutter-maplibre-gl/releases)
 to get a more stable version.
 
 
