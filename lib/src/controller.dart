@@ -707,12 +707,9 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added symbol once listeners have
   /// been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<Symbol> addSymbol(SymbolOptions options, [Map? data]) async {
-    final effectiveOptions = SymbolOptions.defaultOptions.copyWith(options);
-    final symbol = Symbol(getRandomString(), effectiveOptions, data);
-    await symbolManager!.add(symbol);
-    notifyListeners();
-    return symbol;
+    return symbolManager!.add(options, data);
   }
 
   /// Adds multiple symbols to the map, configured using the specified custom
@@ -723,17 +720,10 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added symbol once listeners have
   /// been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<List<Symbol>> addSymbols(List<SymbolOptions> options,
-      [List<Map>? data]) async {
-    final symbols = [
-      for (var i = 0; i < options.length; i++)
-        Symbol(getRandomString(),
-            SymbolOptions.defaultOptions.copyWith(options[i]), data?[i])
-    ];
-    await symbolManager!.addAll(symbols);
-
-    notifyListeners();
-    return symbols;
+      [List<Map>? data]) {
+    return symbolManager!.addAll(options, data);
   }
 
   /// Updates the specified [symbol] with the given [changes]. The symbol must
@@ -743,18 +733,17 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> updateSymbol(Symbol symbol, SymbolOptions changes) async {
-    await symbolManager!
-        .set(symbol..options = symbol.options.copyWith(changes));
-
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> updateSymbol(Symbol symbol, SymbolOptions changes) {
+    return symbolManager!.update(symbol, changes);
   }
 
   /// Retrieves the current position of the symbol.
   /// This may be different from the value of `symbol.options.geometry` if the symbol is draggable.
   /// In that case this method provides the symbol's actual position, and `symbol.options.geometry` the last programmatically set position.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<LatLng> getSymbolLatLng(Symbol symbol) async {
-    return symbol.options.geometry!;
+    return symbolManager!.getPosition(symbol);
   }
 
   /// Removes the specified [symbol] from the map. The symbol must be a current
@@ -764,9 +753,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> removeSymbol(Symbol symbol) async {
-    await symbolManager!.remove(symbol);
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> removeSymbol(Symbol symbol) {
+    return symbolManager!.remove(symbol);
   }
 
   /// Removes the specified [symbols] from the map. The symbols must be current
@@ -776,9 +765,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> removeSymbols(Iterable<Symbol> symbols) async {
-    await symbolManager!.removeAll(symbols);
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> removeSymbols(Iterable<Symbol> symbols) {
+    return symbolManager!.removeAll(symbols);
   }
 
   /// Removes all [symbols] from the map added with the [addSymbol] or [addSymbols] methods.
@@ -787,9 +776,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> clearSymbols() async {
-    symbolManager!.clear();
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> clearSymbols() {
+    return symbolManager!.clear();
   }
 
   /// Adds a line to the map, configured using the specified custom [options].
@@ -799,12 +788,9 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added line once listeners have
   /// been notified.
-  Future<Line> addLine(LineOptions options, [Map? data]) async {
-    final effectiveOptions = LineOptions.defaultOptions.copyWith(options);
-    final line = Line(getRandomString(), effectiveOptions, data);
-    await lineManager!.add(line);
-    notifyListeners();
-    return line;
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<Line> addLine(LineOptions options, [Map? data]) {
+    return lineManager!.add(options, data);
   }
 
   /// Adds multiple lines to the map, configured using the specified custom [options].
@@ -814,17 +800,10 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added line once listeners have
   /// been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<List<Line>> addLines(List<LineOptions> options,
-      [List<Map>? data]) async {
-    final lines = [
-      for (var i = 0; i < options.length; i++)
-        Line(getRandomString(), LineOptions.defaultOptions.copyWith(options[i]),
-            data?[i])
-    ];
-    await lineManager!.addAll(lines);
-
-    notifyListeners();
-    return lines;
+      [List<Map>? data]) {
+    return lineManager!.addAll(options, data);
   }
 
   /// Updates the specified [line] with the given [changes]. The line must
@@ -834,17 +813,17 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> updateLine(Line line, LineOptions changes) async {
-    line.options = line.options.copyWith(changes);
-    await lineManager!.set(line);
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> updateLine(Line line, LineOptions changes) {
+    return lineManager!.update(line, changes);
   }
 
   /// Retrieves the current position of the line.
   /// This may be different from the value of `line.options.geometry` if the line is draggable.
   /// In that case this method provides the line's actual position, and `line.options.geometry` the last programmatically set position.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<List<LatLng>> getLineLatLngs(Line line) async {
-    return line.options.geometry!;
+    return lineManager!.getPosition(line);
   }
 
   /// Removes the specified [line] from the map. The line must be a current
@@ -854,9 +833,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> removeLine(Line line) async {
-    await lineManager!.remove(line);
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> removeLine(Line line) {
+    return lineManager!.remove(line);
   }
 
   /// Removes the specified [lines] from the map. The lines must be current
@@ -866,9 +845,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> removeLines(Iterable<Line> lines) async {
-    await lineManager!.removeAll(lines);
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> removeLines(Iterable<Line> lines) {
+    return lineManager!.removeAll(lines);
   }
 
   /// Removes all [lines] from the map added with the [addLine] or [addLines] methods.
@@ -877,9 +856,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> clearLines() async {
-    await lineManager!.clear();
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> clearLines() {
+    return lineManager!.clear();
   }
 
   /// Adds a circle to the map, configured using the specified custom [options].
@@ -889,13 +868,9 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added circle once listeners have
   /// been notified.
-  Future<Circle> addCircle(CircleOptions options, [Map? data]) async {
-    final CircleOptions effectiveOptions =
-        CircleOptions.defaultOptions.copyWith(options);
-    final circle = Circle(getRandomString(), effectiveOptions, data);
-    await circleManager!.add(circle);
-    notifyListeners();
-    return circle;
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<Circle> addCircle(CircleOptions options, [Map? data])  {
+    return circleManager!.add(options, data);
   }
 
   /// Adds multiple circles to the map, configured using the specified custom
@@ -906,17 +881,10 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added circle once listeners have
   /// been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<List<Circle>> addCircles(List<CircleOptions> options,
-      [List<Map>? data]) async {
-    final cricles = [
-      for (var i = 0; i < options.length; i++)
-        Circle(getRandomString(),
-            CircleOptions.defaultOptions.copyWith(options[i]), data?[i])
-    ];
-    await circleManager!.addAll(cricles);
-
-    notifyListeners();
-    return cricles;
+      [List<Map>? data])  {
+    return circleManager!.addAll(options, data);
   }
 
   /// Updates the specified [circle] with the given [changes]. The circle must
@@ -926,18 +894,17 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> updateCircle(Circle circle, CircleOptions changes) async {
-    circle.options = circle.options.copyWith(changes);
-    await circleManager!.set(circle);
-
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> updateCircle(Circle circle, CircleOptions changes)  {
+    return circleManager!.update(circle, changes);
   }
 
   /// Retrieves the current position of the circle.
   /// This may be different from the value of `circle.options.geometry` if the circle is draggable.
   /// In that case this method provides the circle's actual position, and `circle.options.geometry` the last programmatically set position.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<LatLng> getCircleLatLng(Circle circle) async {
-    return circle.options.geometry!;
+    return circleManager!.getPosition(circle);
   }
 
   /// Removes the specified [circle] from the map. The circle must be a current
@@ -947,10 +914,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> removeCircle(Circle circle) async {
-    circleManager!.remove(circle);
-
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> removeCircle(Circle circle) {
+    return circleManager!.remove(circle);
   }
 
   /// Removes the specified [circles] from the map. The circles must be current
@@ -960,9 +926,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeCircles(Iterable<Circle> circles) async {
     await circleManager!.removeAll(circles);
-    notifyListeners();
   }
 
   /// Removes all [circles] from the map added with the [addCircle] or [addCircles] methods.
@@ -971,10 +937,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  Future<void> clearCircles() async {
-    circleManager!.clear();
-
-    notifyListeners();
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> clearCircles() {
+    return circleManager!.clear();
   }
 
   /// Adds a fill to the map, configured using the specified custom [options].
@@ -984,13 +949,9 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added fill once listeners have
   /// been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<Fill> addFill(FillOptions options, [Map? data]) async {
-    final FillOptions effectiveOptions =
-        FillOptions.defaultOptions.copyWith(options);
-    final fill = Fill(getRandomString(), effectiveOptions, data);
-    await fillManager!.add(fill);
-    notifyListeners();
-    return fill;
+    return await fillManager!.add(options, data);
   }
 
   /// Adds multiple fills to the map, configured using the specified custom
@@ -1001,17 +962,10 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added fills once listeners have
   /// been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<List<Fill>> addFills(List<FillOptions> options,
       [List<Map>? data]) async {
-    final fills = [
-      for (var i = 0; i < options.length; i++)
-        Fill(getRandomString(), FillOptions.defaultOptions.copyWith(options[i]),
-            data?[i])
-    ];
-    await fillManager!.addAll(fills);
-
-    notifyListeners();
-    return fills;
+    return await fillManager!.addAll(options, data);
   }
 
   /// Updates the specified [fill] with the given [changes]. The fill must
@@ -1021,11 +975,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<void> updateFill(Fill fill, FillOptions changes) async {
-    fill.options = fill.options.copyWith(changes);
-    await fillManager!.set(fill);
-
-    notifyListeners();
+    await fillManager!.update(fill, changes);
   }
 
   /// Removes all [fills] from the map added with the [addFill] or [addFills] methods.
@@ -1034,10 +986,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<void> clearFills() async {
     await fillManager!.clear();
-
-    notifyListeners();
   }
 
   /// Removes the specified [fill] from the map. The fill must be a current
@@ -1047,9 +998,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeFill(Fill fill) async {
     await fillManager!.remove(fill);
-    notifyListeners();
   }
 
   /// Removes the specified [fills] from the map. The fills must be current
@@ -1059,9 +1010,9 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
+  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeFills(Iterable<Fill> fills) async {
     await fillManager!.removeAll(fills);
-    notifyListeners();
   }
 
   /// Query rendered features at a point in screen cooridnates

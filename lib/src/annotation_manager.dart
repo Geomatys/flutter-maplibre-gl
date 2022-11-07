@@ -96,7 +96,7 @@ abstract class AnnotationManager<T extends Annotation> {
 
   /// Adds a multiple annotations to the map. This much faster than calling add
   /// multiple times
-  Future<void> addAll(Iterable<T> annotations) async {
+  Future<void> _addAllAnnotations(Iterable<T> annotations) async {
     for (var a in annotations) {
       _idToAnnotation[a.id] = a;
     }
@@ -104,13 +104,13 @@ abstract class AnnotationManager<T extends Annotation> {
   }
 
   /// add a single annotation to the map
-  Future<void> add(T annotation) async {
+  Future<void> _addAnnotation(T annotation) async {
     _idToAnnotation[annotation.id] = annotation;
     await _setAll();
   }
 
   /// Removes multiple annotations from the map
-  Future<void> removeAll(Iterable<T> annotations) async {
+  Future<void> _removeAllAnnotations(Iterable<T> annotations) async {
     for (var a in annotations) {
       _idToAnnotation.remove(a.id);
     }
@@ -118,13 +118,13 @@ abstract class AnnotationManager<T extends Annotation> {
   }
 
   /// Remove a single annotation form the map
-  Future<void> remove(T annotation) async {
+  Future<void> _removeAnnotation(T annotation) async {
     _idToAnnotation.remove(annotation.id);
     await _setAll();
   }
 
   /// Removes all annotations from the map
-  Future<void> clear() async {
+  Future<void> _clearAnnotations() async {
     _idToAnnotation.clear();
 
     await _setAll();
@@ -132,7 +132,7 @@ abstract class AnnotationManager<T extends Annotation> {
 
   /// Fully dipose of all the the resouces managed by the annotation manager.
   /// The manager cannot be used after this has been called
-  Future<void> dispose() async {
+  void dispose() async {
     _idToAnnotation.clear();
     await _setAll();
     for (var i = 0; i < allLayerProperties.length; i++) {
@@ -150,13 +150,13 @@ abstract class AnnotationManager<T extends Annotation> {
     final annotation = byId(id);
     if (annotation != null) {
       annotation.translate(delta);
-      set(annotation);
+      _set(annotation);
     }
   }
 
   /// Set an existing anntotation to the map. Use this to do a fast update for a
   /// single annotation
-  Future<void> set(T anntotation) async {
+  Future<void> _set(T anntotation) async {
     assert(_idToAnnotation.containsKey(anntotation.id),
         "you can only set existing annotations");
     _idToAnnotation[anntotation.id] = anntotation;
@@ -173,7 +173,7 @@ abstract class AnnotationManager<T extends Annotation> {
   }
 }
 
-class LineManager extends AnnotationManager<Line> {
+class LineManager extends AnnotationLayer<Line, LineOptions> with ChangeNotifier {
   LineManager(MaplibreMapController controller,
       {void Function(Line)? onTap, bool enableInteraction = true})
       : super(
@@ -192,15 +192,68 @@ class LineManager extends AnnotationManager<Line> {
     lineOffset: [Expressions.get, 'lineOffset'],
     lineBlur: [Expressions.get, 'lineBlur'],
   );
+
   @override
   List<LayerProperties> get allLayerProperties => [
         _baseProperties,
         _baseProperties.copyWith(
             LineLayerProperties(linePattern: [Expressions.get, 'linePattern'])),
       ];
+
+  @override
+  Future<Line> add(LineOptions options, [Map? data]) async {
+    final effectiveOptions = LineOptions.defaultOptions.copyWith(options);
+    final line = Line(getRandomString(), effectiveOptions, data);
+    await _addAnnotation(line);
+    notifyListeners();
+    return line;
+  }
+
+  @override
+  Future<List<Line>> addAll(List<LineOptions> options, [List<Map>? data]) async {
+    final lines = [
+      for (var i = 0; i < options.length; i++)
+        Line(getRandomString(), LineOptions.defaultOptions.copyWith(options[i]),
+            data?[i])
+    ];
+    await _addAllAnnotations(lines);
+
+    notifyListeners();
+    return lines;
+  }
+
+  @override
+  Future<void> clear() async {
+    await _clearAnnotations();
+    notifyListeners();
+  }
+
+  @override
+  Future<void> remove(Line line) async {
+    await _removeAnnotation(line);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> removeAll(Iterable<Line> lines) async {
+    await _removeAllAnnotations(lines);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> update(Line line, LineOptions options) async {
+    line.options = line.options.copyWith(options);
+    await _set(line);
+    notifyListeners();
+  }
+
+  List<LatLng> getPosition(Line line) {
+    return line.options.geometry!;
+  }
+
 }
 
-class FillManager extends AnnotationManager<Fill> {
+class FillManager extends AnnotationLayer<Fill, FillOptions> with ChangeNotifier {
   FillManager(
     MaplibreMapController controller, {
     void Function(Fill)? onTap,
@@ -225,9 +278,58 @@ class FillManager extends AnnotationManager<Fill> {
           fillPattern: [Expressions.get, 'fillPattern'],
         )
       ];
+
+  @override
+  Future<Fill> add(FillOptions options, [Map? data]) async {
+    final FillOptions effectiveOptions =
+    FillOptions.defaultOptions.copyWith(options);
+    final fill = Fill(getRandomString(), effectiveOptions, data);
+    await _addAnnotation(fill);
+    notifyListeners();
+    return fill;
+  }
+
+  @override
+  Future<List<Fill>> addAll(List<FillOptions> options, [List<Map>? data]) async {
+    final fills = [
+      for (var i = 0; i < options.length; i++)
+        Fill(getRandomString(), FillOptions.defaultOptions.copyWith(options[i]),
+            data?[i])
+    ];
+    await _addAllAnnotations(fills);
+
+    notifyListeners();
+    return fills;
+  }
+
+  @override
+  Future<void> clear() async {
+    await _clearAnnotations();
+
+    notifyListeners();
+  }
+
+  @override
+  Future<void> remove(Fill fill) async {
+    await _removeAnnotation(fill);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> removeAll(Iterable<Fill> fills) async {
+    await _removeAllAnnotations(fills);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> update(Fill fill, FillOptions options) async {
+    fill.options = fill.options.copyWith(options);
+    await _set(fill);
+    notifyListeners();
+  }
 }
 
-class CircleManager extends AnnotationManager<Circle> {
+class CircleManager extends AnnotationLayer<Circle, CircleOptions> with ChangeNotifier {
   CircleManager(
     MaplibreMapController controller, {
     void Function(Circle)? onTap,
@@ -249,9 +351,64 @@ class CircleManager extends AnnotationManager<Circle> {
           circleStrokeOpacity: [Expressions.get, 'circleStrokeOpacity'],
         )
       ];
+
+  @override
+  Future<Circle> add(CircleOptions options, [Map? data]) async {
+    final CircleOptions effectiveOptions =
+    CircleOptions.defaultOptions.copyWith(options);
+    final circle = Circle(getRandomString(), effectiveOptions, data);
+    await _addAnnotation(circle);
+    notifyListeners();
+    return circle;
+  }
+
+  @override
+  Future<List<Circle>> addAll(List<CircleOptions> options, [List<Map>? data]) async {
+    final cricles = [
+      for (var i = 0; i < options.length; i++)
+        Circle(getRandomString(),
+            CircleOptions.defaultOptions.copyWith(options[i]), data?[i])
+    ];
+    await _addAllAnnotations(cricles);
+
+    notifyListeners();
+    return cricles;
+  }
+
+  @override
+  Future<void> clear() async {
+    await _clearAnnotations();
+
+    notifyListeners();
+  }
+
+  @override
+  Future<void> remove(Circle circle) async {
+    await _removeAnnotation(circle);
+
+    notifyListeners();
+  }
+
+  @override
+  Future<void> removeAll(Iterable<Circle> circles) async {
+    await _removeAllAnnotations(circles);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> update(Circle circle, CircleOptions options) async {
+    circle.options = circle.options.copyWith(options);
+    await _set(circle);
+
+    notifyListeners();
+  }
+
+  LatLng getPosition(Circle circle) {
+    return circle.options.geometry!;
+  }
 }
 
-class SymbolManager extends AnnotationManager<Symbol> {
+class SymbolManager extends AnnotationLayer<Symbol, SymbolOptions> with ChangeNotifier {
   SymbolManager(
     MaplibreMapController controller, {
     void Function(Symbol)? onTap,
@@ -346,4 +503,55 @@ class SymbolManager extends AnnotationManager<Symbol> {
           textIgnorePlacement: _textIgnorePlacement,
         )
       ];
+
+  @override
+  Future<Symbol> add(SymbolOptions options, [Map? data]) async {
+    final effectiveOptions = SymbolOptions.defaultOptions.copyWith(options);
+    final symbol = Symbol(getRandomString(), effectiveOptions, data);
+    await _addAnnotation(symbol);
+    notifyListeners();
+    return symbol;
+  }
+
+  @override
+  Future<List<Symbol>> addAll(List<SymbolOptions> options, [List<Map>? data]) async {
+    final symbols = [
+      for (var i = 0; i < options.length; i++)
+        Symbol(getRandomString(),
+            SymbolOptions.defaultOptions.copyWith(options[i]), data?[i])
+    ];
+    await _addAllAnnotations(symbols);
+
+    notifyListeners();
+    return symbols;
+  }
+
+  @override
+  Future<void> clear() async {
+    await _clearAnnotations();
+    notifyListeners();
+  }
+
+  @override
+  Future<void> remove(Symbol symbol) async {
+    await _removeAnnotation(symbol);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> removeAll(Iterable<Symbol> symbols) async {
+    await _removeAllAnnotations(symbols);
+    notifyListeners();
+  }
+
+  @override
+  Future<void> update(Symbol symbol, SymbolOptions options) async {
+    await _set(symbol..options = symbol.options.copyWith(options));
+
+    notifyListeners();
+  }
+
+  LatLng getPosition(Symbol symbol) {
+    return symbol.options.geometry!;
+  }
 }
