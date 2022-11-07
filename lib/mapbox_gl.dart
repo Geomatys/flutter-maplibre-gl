@@ -59,3 +59,4 @@ part 'src/layer_properties.dart';
 part 'src/color_tools.dart';
 part 'src/annotation_manager.dart';
 part 'src/util.dart';
+part 'src/annotation_layer.dart';
