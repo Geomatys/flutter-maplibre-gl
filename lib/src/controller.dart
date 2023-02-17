@@ -1221,6 +1221,10 @@ class MaplibreMapController extends ChangeNotifier {
     return _mapboxGlPlatform.getLayerIds();
   }
 
+  Future<List> getSourceIds() {
+    return _mapboxGlPlatform.getSourceIds();
+  }
+
   @override
   void dispose() {
     super.dispose();
