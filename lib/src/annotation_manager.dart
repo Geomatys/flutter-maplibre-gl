@@ -173,7 +173,8 @@ abstract class AnnotationManager<T extends Annotation> {
   }
 }
 
-class LineManager extends AnnotationLayer<Line, LineOptions> with ChangeNotifier {
+class LineManager extends AnnotationLayer<Line, LineOptions>
+    with ChangeNotifier {
   LineManager(MaplibreMapController controller,
       {void Function(Line)? onTap, bool enableInteraction = true})
       : super(
@@ -210,7 +211,8 @@ class LineManager extends AnnotationLayer<Line, LineOptions> with ChangeNotifier
   }
 
   @override
-  Future<List<Line>> addAll(List<LineOptions> options, [List<Map>? data]) async {
+  Future<List<Line>> addAll(List<LineOptions> options,
+      [List<Map>? data]) async {
     final lines = [
       for (var i = 0; i < options.length; i++)
         Line(getRandomString(), LineOptions.defaultOptions.copyWith(options[i]),
@@ -250,10 +252,10 @@ class LineManager extends AnnotationLayer<Line, LineOptions> with ChangeNotifier
   List<LatLng> getPosition(Line line) {
     return line.options.geometry!;
   }
-
 }
 
-class FillManager extends AnnotationLayer<Fill, FillOptions> with ChangeNotifier {
+class FillManager extends AnnotationLayer<Fill, FillOptions>
+    with ChangeNotifier {
   FillManager(
     MaplibreMapController controller, {
     void Function(Fill)? onTap,
@@ -282,7 +284,7 @@ class FillManager extends AnnotationLayer<Fill, FillOptions> with ChangeNotifier
   @override
   Future<Fill> add(FillOptions options, [Map? data]) async {
     final FillOptions effectiveOptions =
-    FillOptions.defaultOptions.copyWith(options);
+        FillOptions.defaultOptions.copyWith(options);
     final fill = Fill(getRandomString(), effectiveOptions, data);
     await _addAnnotation(fill);
     notifyListeners();
@@ -290,7 +292,8 @@ class FillManager extends AnnotationLayer<Fill, FillOptions> with ChangeNotifier
   }
 
   @override
-  Future<List<Fill>> addAll(List<FillOptions> options, [List<Map>? data]) async {
+  Future<List<Fill>> addAll(List<FillOptions> options,
+      [List<Map>? data]) async {
     final fills = [
       for (var i = 0; i < options.length; i++)
         Fill(getRandomString(), FillOptions.defaultOptions.copyWith(options[i]),
@@ -329,7 +332,8 @@ class FillManager extends AnnotationLayer<Fill, FillOptions> with ChangeNotifier
   }
 }
 
-class CircleManager extends AnnotationLayer<Circle, CircleOptions> with ChangeNotifier {
+class CircleManager extends AnnotationLayer<Circle, CircleOptions>
+    with ChangeNotifier {
   CircleManager(
     MaplibreMapController controller, {
     void Function(Circle)? onTap,
@@ -355,7 +359,7 @@ class CircleManager extends AnnotationLayer<Circle, CircleOptions> with ChangeNo
   @override
   Future<Circle> add(CircleOptions options, [Map? data]) async {
     final CircleOptions effectiveOptions =
-    CircleOptions.defaultOptions.copyWith(options);
+        CircleOptions.defaultOptions.copyWith(options);
     final circle = Circle(getRandomString(), effectiveOptions, data);
     await _addAnnotation(circle);
     notifyListeners();
@@ -363,7 +367,8 @@ class CircleManager extends AnnotationLayer<Circle, CircleOptions> with ChangeNo
   }
 
   @override
-  Future<List<Circle>> addAll(List<CircleOptions> options, [List<Map>? data]) async {
+  Future<List<Circle>> addAll(List<CircleOptions> options,
+      [List<Map>? data]) async {
     final cricles = [
       for (var i = 0; i < options.length; i++)
         Circle(getRandomString(),
@@ -408,7 +413,8 @@ class CircleManager extends AnnotationLayer<Circle, CircleOptions> with ChangeNo
   }
 }
 
-class SymbolManager extends AnnotationLayer<Symbol, SymbolOptions> with ChangeNotifier {
+class SymbolManager extends AnnotationLayer<Symbol, SymbolOptions>
+    with ChangeNotifier {
   SymbolManager(
     MaplibreMapController controller, {
     void Function(Symbol)? onTap,
@@ -514,7 +520,8 @@ class SymbolManager extends AnnotationLayer<Symbol, SymbolOptions> with ChangeNo
   }
 
   @override
-  Future<List<Symbol>> addAll(List<SymbolOptions> options, [List<Map>? data]) async {
+  Future<List<Symbol>> addAll(List<SymbolOptions> options,
+      [List<Map>? data]) async {
     final symbols = [
       for (var i = 0; i < options.length; i++)
         Symbol(getRandomString(),
