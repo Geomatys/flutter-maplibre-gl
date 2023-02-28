@@ -707,7 +707,8 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added symbol once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<Symbol> addSymbol(SymbolOptions options, [Map? data]) async {
     return symbolManager!.add(options, data);
   }
@@ -720,7 +721,8 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added symbol once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<List<Symbol>> addSymbols(List<SymbolOptions> options,
       [List<Map>? data]) {
     return symbolManager!.addAll(options, data);
@@ -733,7 +735,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> updateSymbol(Symbol symbol, SymbolOptions changes) {
     return symbolManager!.update(symbol, changes);
   }
@@ -741,7 +744,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// Retrieves the current position of the symbol.
   /// This may be different from the value of `symbol.options.geometry` if the symbol is draggable.
   /// In that case this method provides the symbol's actual position, and `symbol.options.geometry` the last programmatically set position.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<LatLng> getSymbolLatLng(Symbol symbol) async {
     return symbolManager!.getPosition(symbol);
   }
@@ -753,7 +757,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeSymbol(Symbol symbol) {
     return symbolManager!.remove(symbol);
   }
@@ -765,7 +770,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeSymbols(Iterable<Symbol> symbols) {
     return symbolManager!.removeAll(symbols);
   }
@@ -776,7 +782,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> clearSymbols() {
     return symbolManager!.clear();
   }
@@ -788,7 +795,8 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added line once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<Line> addLine(LineOptions options, [Map? data]) {
     return lineManager!.add(options, data);
   }
@@ -800,9 +808,9 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added line once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
-  Future<List<Line>> addLines(List<LineOptions> options,
-      [List<Map>? data]) {
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
+  Future<List<Line>> addLines(List<LineOptions> options, [List<Map>? data]) {
     return lineManager!.addAll(options, data);
   }
 
@@ -813,7 +821,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> updateLine(Line line, LineOptions changes) {
     return lineManager!.update(line, changes);
   }
@@ -821,7 +830,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// Retrieves the current position of the line.
   /// This may be different from the value of `line.options.geometry` if the line is draggable.
   /// In that case this method provides the line's actual position, and `line.options.geometry` the last programmatically set position.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<List<LatLng>> getLineLatLngs(Line line) async {
     return lineManager!.getPosition(line);
   }
@@ -833,7 +843,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeLine(Line line) {
     return lineManager!.remove(line);
   }
@@ -845,7 +856,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeLines(Iterable<Line> lines) {
     return lineManager!.removeAll(lines);
   }
@@ -856,7 +868,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> clearLines() {
     return lineManager!.clear();
   }
@@ -868,8 +881,9 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added circle once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
-  Future<Circle> addCircle(CircleOptions options, [Map? data])  {
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
+  Future<Circle> addCircle(CircleOptions options, [Map? data]) {
     return circleManager!.add(options, data);
   }
 
@@ -881,9 +895,10 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added circle once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<List<Circle>> addCircles(List<CircleOptions> options,
-      [List<Map>? data])  {
+      [List<Map>? data]) {
     return circleManager!.addAll(options, data);
   }
 
@@ -894,15 +909,17 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
-  Future<void> updateCircle(Circle circle, CircleOptions changes)  {
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
+  Future<void> updateCircle(Circle circle, CircleOptions changes) {
     return circleManager!.update(circle, changes);
   }
 
   /// Retrieves the current position of the circle.
   /// This may be different from the value of `circle.options.geometry` if the circle is draggable.
   /// In that case this method provides the circle's actual position, and `circle.options.geometry` the last programmatically set position.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<LatLng> getCircleLatLng(Circle circle) async {
     return circleManager!.getPosition(circle);
   }
@@ -914,7 +931,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeCircle(Circle circle) {
     return circleManager!.remove(circle);
   }
@@ -926,7 +944,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeCircles(Iterable<Circle> circles) async {
     await circleManager!.removeAll(circles);
   }
@@ -937,7 +956,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> clearCircles() {
     return circleManager!.clear();
   }
@@ -949,7 +969,8 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added fill once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<Fill> addFill(FillOptions options, [Map? data]) async {
     return await fillManager!.add(options, data);
   }
@@ -962,7 +983,8 @@ class MaplibreMapController extends ChangeNotifier {
   ///
   /// The returned [Future] completes with the added fills once listeners have
   /// been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<List<Fill>> addFills(List<FillOptions> options,
       [List<Map>? data]) async {
     return await fillManager!.addAll(options, data);
@@ -975,7 +997,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> updateFill(Fill fill, FillOptions changes) async {
     await fillManager!.update(fill, changes);
   }
@@ -986,7 +1009,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> clearFills() async {
     await fillManager!.clear();
   }
@@ -998,7 +1022,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeFill(Fill fill) async {
     await fillManager!.remove(fill);
   }
@@ -1010,7 +1035,8 @@ class MaplibreMapController extends ChangeNotifier {
   /// platform side.
   ///
   /// The returned [Future] completes once listeners have been notified.
-  @Deprecated('This function will be removed in the next release, please use the manager dedicated function')
+  @Deprecated(
+      'This function will be removed in the next release, please use the manager dedicated function')
   Future<void> removeFills(Iterable<Fill> fills) async {
     await fillManager!.removeAll(fills);
   }
