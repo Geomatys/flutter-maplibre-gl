@@ -29,6 +29,8 @@ typedef void OnCameraIdleCallback();
 
 typedef void OnMapIdleCallback();
 
+typedef void OnCameraMoveCallback(CameraPosition location);
+
 /// Controller for a single [MaplibreMap] instance running on the host platform.
 ///
 /// Some of its methods can only be called after the [onStyleLoaded] callback has been invoked.
@@ -111,6 +113,9 @@ class MaplibreMapController extends ChangeNotifier {
 
     _maplibreGlPlatform.onCameraMovePlatform.add((cameraPosition) {
       _cameraPosition = cameraPosition;
+      for (final fun in List<OnCameraMoveCallback>.of(onCameraMove)) {
+        fun(cameraPosition);
+      }
       notifyListeners();
     });
 
@@ -205,6 +210,8 @@ class MaplibreMapController extends ChangeNotifier {
   final OnCameraIdleCallback? onCameraIdle;
 
   final OnMapIdleCallback? onMapIdle;
+
+  final onCameraMove = <OnCameraMoveCallback>[];
 
   /// Callbacks to receive tap events for symbols placed on this map.
   final ArgumentCallbacks<Symbol> onSymbolTapped = ArgumentCallbacks<Symbol>();
