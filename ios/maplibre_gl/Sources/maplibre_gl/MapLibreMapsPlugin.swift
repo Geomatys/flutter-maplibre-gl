@@ -1,17 +1,17 @@
 import Flutter
 import Foundation
-import Mapbox
+import MapLibre
 import UIKit
 
-public class SwiftMapboxGlFlutterPlugin: NSObject, FlutterPlugin {
+public class MapLibreMapsPlugin: NSObject, FlutterPlugin {
     static var downloadOfflineRegionChannelHandler: OfflineChannelHandler? = nil
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let instance = MapboxMapFactory(withRegistrar: registrar)
-        registrar.register(instance, withId: "plugins.flutter.io/mapbox_gl")
+        let instance = MapLibreMapFactory(withRegistrar: registrar)
+        registrar.register(instance, withId: "plugins.flutter.io/maplibre_gl")
 
         let channel = FlutterMethodChannel(
-            name: "plugins.flutter.io/mapbox_gl",
+            name: "plugins.flutter.io/maplibre_gl",
             binaryMessenger: registrar.messenger()
         )
 
@@ -31,7 +31,7 @@ public class SwiftMapboxGlFlutterPlugin: NSObject, FlutterPlugin {
                 }
                 let sessionConfig = URLSessionConfiguration.default
                 sessionConfig.httpAdditionalHeaders = headers // your headers here
-                MGLNetworkConfiguration.sharedManager.sessionConfiguration = sessionConfig
+                MLNNetworkConfiguration.sharedManager.sessionConfiguration = sessionConfig
                 result(nil)
             case "installOfflineMapTiles":
                 guard let arguments = methodCall.arguments as? [String: String] else { return }
@@ -131,7 +131,7 @@ public class SwiftMapboxGlFlutterPlugin: NSObject, FlutterPlugin {
         return cachesUrl
     }
 
-    // Copies the "offline" tiles to where Mapbox expects them
+    // Copies the "offline" tiles to where MapLibre expects them
     private static func installOfflineMapTiles(registrar: FlutterPluginRegistrar, tilesdb: String) {
         var tilesUrl = getTilesUrl()
         let bundlePath = getTilesDbPath(registrar: registrar, tilesdb: tilesdb)
