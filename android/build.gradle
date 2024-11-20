@@ -1,14 +1,16 @@
-group 'com.mapbox.mapboxgl'
+group 'org.maplibre.maplibregl'
 version '1.0-SNAPSHOT'
 
 buildscript {
+    ext.kotlin_version = '1.9.0'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -20,12 +22,15 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'kotlin-android'
 
 android {
+    if (project.android.hasProperty("namespace")) {
+        namespace 'org.maplibre.maplibregl'
+    }
 
-    compileSdkVersion 31
-    ndkVersion "20.1.5948944"
+    compileSdkVersion 34
+    ndkVersion "26.1.10909125"
 
     defaultConfig {
         minSdkVersion 21
@@ -39,15 +44,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    dependencies {
-        implementation 'org.maplibre.gl:android-sdk:10.2.0'
-        implementation 'org.maplibre.gl:android-plugin-annotation-v9:2.0.0'
-        implementation 'org.maplibre.gl:android-plugin-offline-v9:2.0.0'
-        implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+    dependencies {
+        implementation 'org.maplibre.gl:android-sdk:11.0.0'
+        implementation 'org.maplibre.gl:android-plugin-annotation-v9:3.0.0'
+        implementation 'org.maplibre.gl:android-plugin-offline-v9:3.0.0'
+        implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     }
 }
 
