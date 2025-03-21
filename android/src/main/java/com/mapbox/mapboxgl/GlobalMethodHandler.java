@@ -149,9 +149,8 @@ class GlobalMethodHandler implements MethodChannel.MethodCallHandler {
       return new FileInputStream(new File(tilesDb));
     } else {
       String assetKey;
-      if (registrar != null) {
-        assetKey = registrar.lookupKeyForAsset(tilesDb);
-      } else if (flutterAssets != null) {
+
+      if (flutterAssets != null) {
         assetKey = flutterAssets.getAssetFilePathByName(tilesDb);
       } else {
         throw new IllegalStateException();
