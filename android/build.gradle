@@ -24,7 +24,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
 
-    compileSdkVersion 31
+    compileSdkVersion 35
     ndkVersion "20.1.5948944"
     namespace = "com.mapbox.mapboxgl"
     defaultConfig {
