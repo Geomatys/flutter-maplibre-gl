@@ -29,9 +29,7 @@ class GlobalMethodHandler implements MethodChannel.MethodCallHandler {
   @Nullable private FlutterPlugin.FlutterAssets flutterAssets;
   @Nullable private OfflineChannelHandlerImpl downloadOfflineRegionChannelHandler;
 
-  public GlobalMethodHandler(Context context) {
-    this.context = context;
-  }
+
 
   GlobalMethodHandler(@NonNull FlutterPlugin.FlutterPluginBinding binding) {
     this.context = binding.getApplicationContext();
