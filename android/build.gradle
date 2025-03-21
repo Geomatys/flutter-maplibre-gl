@@ -24,12 +24,12 @@ apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
 
-    compileSdkVersion 35
+    compileSdkVersion 34
     ndkVersion "20.1.5948944"
     namespace = "com.mapbox.mapboxgl"
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 35
+        targetSdkVersion 34
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
