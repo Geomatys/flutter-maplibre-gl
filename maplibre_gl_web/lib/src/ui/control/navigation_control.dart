@@ -1,5 +1,3 @@
-library maplibre.ui.control.navigation_control;
-
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 import 'package:maplibre_gl_web/src/ui/map.dart';
 
@@ -15,16 +13,16 @@ class NavigationControlOptions
     bool? showCompass,
     bool? showZoom,
     bool? visualizePitch,
-  }) =>
-      NavigationControlOptions.fromJsObject(NavigationControlOptionsJsImpl(
-        showCompass: showCompass,
-        showZoom: showZoom,
-        visualizePitch: visualizePitch,
-      ));
+  }) => NavigationControlOptions.fromJsObject(
+    NavigationControlOptionsJsImpl(
+      showCompass: showCompass,
+      showZoom: showZoom,
+      visualizePitch: visualizePitch,
+    ),
+  );
 
   /// Creates a new NavigationControlOptions from a [jsObject].
-  NavigationControlOptions.fromJsObject(NavigationControlOptionsJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  NavigationControlOptions.fromJsObject(super.jsObject) : super.fromJsObject();
 }
 
 /// A `NavigationControl` control contains zoom buttons and a compass.
@@ -51,6 +49,5 @@ class NavigationControl extends JsObjectWrapper<NavigationControlJsImpl> {
   onRemove() => jsObject.onRemove();
 
   /// Creates a new MapOptions from a [jsObject].
-  NavigationControl.fromJsObject(NavigationControlJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  NavigationControl.fromJsObject(super.jsObject) : super.fromJsObject();
 }

@@ -1,6 +1,5 @@
-library maplibre.ui.events;
-
-import 'dart:html';
+import 'dart:js_interop';
+import 'package:web/web.dart';
 
 import 'package:maplibre_gl_web/src/geo/lng_lat.dart';
 import 'package:maplibre_gl_web/src/interop/interop.dart';
@@ -37,8 +36,7 @@ class MapMouseEvent extends JsObjectWrapper<MapMouseEventJsImpl> {
   bool get defaultPrevented => jsObject.defaultPrevented;
 
   /// Creates a new MapMouseEvent from a [jsObject].
-  MapMouseEvent.fromJsObject(MapMouseEventJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  MapMouseEvent.fromJsObject(super.jsObject) : super.fromJsObject();
 }
 
 class MapTouchEvent extends JsObjectWrapper<MapTouchEventJsImpl> {
@@ -61,12 +59,16 @@ class MapTouchEvent extends JsObjectWrapper<MapTouchEventJsImpl> {
   ///  The array of pixel coordinates corresponding to a
   ///  [touch event's `touches`](https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/touches) property.
   List<Point> get points =>
-      jsObject.points.map((f) => Point.fromJsObject(f)).toList();
+      (jsObject.points.toDart as List)
+          .map((f) => Point.fromJsObject(f))
+          .toList();
 
   ///  The geographical locations on the map corresponding to a
   ///  [touch event's `touches`](https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent/touches) property.
   List<LngLat> get lngLats =>
-      jsObject.lngLats.map((dynamic f) => LngLat.fromJsObject(f)).toList();
+      (jsObject.lngLats.toDart as List)
+          .map((dynamic f) => LngLat.fromJsObject(f))
+          .toList();
 
   ///  Prevents subsequent default processing of the event by the map.
   ///
@@ -80,6 +82,5 @@ class MapTouchEvent extends JsObjectWrapper<MapTouchEventJsImpl> {
   bool get defaultPrevented => jsObject.defaultPrevented;
 
   /// Creates a new MapTouchEvent from a [jsObject].
-  MapTouchEvent.fromJsObject(MapTouchEventJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  MapTouchEvent.fromJsObject(super.jsObject) : super.fromJsObject();
 }

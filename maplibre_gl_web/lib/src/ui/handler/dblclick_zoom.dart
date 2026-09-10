@@ -1,5 +1,3 @@
-library maplibre.ui.handler.dbclick_zoom;
-
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 import 'package:maplibre_gl_web/src/ui/events.dart';
 
@@ -32,6 +30,5 @@ class DoubleClickZoomHandler
   onDblClick(MapMouseEvent e) => jsObject.onDblClick(e.jsObject);
 
   /// Creates a new DoubleClickZoomHandler from a [jsObject].
-  DoubleClickZoomHandler.fromJsObject(DoubleClickZoomHandlerJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  DoubleClickZoomHandler.fromJsObject(super.jsObject) : super.fromJsObject();
 }

@@ -1,101 +1,27 @@
 name: Flutter Beta CI
 
 on:
-  schedule:
-    - cron:  '0 0 * * *'
-
-env:
-  FLUTTER_CHANNEL: 'beta'
+  schedule: [ cron:  '0 0 * * *' ]
+  workflow_dispatch:
 
 jobs:
-  format:
-    name: "Check formatting"
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2.12.0
-        with:
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          cache: true
-      - name: Lint analysis
-        run: flutter format --set-exit-if-changed .
-
-  lint:
-    name: "Static code analysis"
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - uses: subosito/flutter-action@v2.12.0
-      with:
-        channel: ${{ env.FLUTTER_CHANNEL }}
-        cache: true
-    - run: flutter pub get
-    - name: Lint analysis
-      run: flutter analyze
-
   build-android:
     name: "Build Android apk"
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: example
+    uses: ./.github/workflows/_build.yml
+    with:
+      platform: android
+      flutter-channel: beta
 
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: 'gradle'
-    - uses: subosito/flutter-action@v2.12.0
-      with:
-        channel: ${{ env.FLUTTER_CHANNEL }}
-        cache: true
-    - run: flutter pub get
-    - name: Build example APK
-      run: flutter build apk
-      # We might want to add a flutter test step in the future, when there actually are tests for this plugin
-        
-  build-iOS:
-    name: Build iOS package
-    runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: example
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2.12.0
-        with:
-          channel: ${{ env.FLUTTER_CHANNEL }}
-          cache: true
-      - uses: maxim-lobanov/setup-cocoapods@v1
-        with:
-          podfile-path: example/ios/Podfile.lock
-      - run: flutter pub get
-      - name: Build iOS package
-        run: flutter build ios --simulator
-      - name: Upload Runner.app as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Runner.app
-          path: example/build/ios/iphonesimulator
+  build-ios:
+    name: "Build iOS package"
+    uses: ./.github/workflows/_build.yml
+    with:
+      platform: ios
+      flutter-channel: beta
 
   build-web:
     name: "Build web"
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: example
-
-    steps:
-    - uses: actions/checkout@v4
-    - uses: subosito/flutter-action@v2.12.0
-      with:
-        channel: ${{ env.FLUTTER_CHANNEL }}
-        cache: true
-    - run: flutter pub get
-    - name: Build web
-      run: flutter build web
+    uses: ./.github/workflows/_build.yml
+    with:
+      platform: web
+      flutter-channel: beta

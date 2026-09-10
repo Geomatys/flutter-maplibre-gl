@@ -1,6 +1,4 @@
-library maplibre.ui.handler.scroll_zoom;
-
-import 'dart:html';
+import 'package:web/web.dart';
 
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 
@@ -46,6 +44,5 @@ class ScrollZoomHandler extends JsObjectWrapper<ScrollZoomHandlerJsImpl> {
   onWheel(WheelEvent e) => jsObject.onWheel(e);
 
   /// Creates a new ScrollZoomHandler from a [jsObject].
-  ScrollZoomHandler.fromJsObject(ScrollZoomHandlerJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  ScrollZoomHandler.fromJsObject(super.jsObject) : super.fromJsObject();
 }

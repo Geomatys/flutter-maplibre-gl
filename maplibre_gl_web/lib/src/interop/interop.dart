@@ -1,5 +1,3 @@
-library maplibre.interop;
-
 export 'geo/geojson_interop.dart';
 export 'geo/lng_lat_bounds_interop.dart';
 export 'geo/lng_lat_interop.dart';
@@ -13,10 +11,12 @@ export 'style/sources/geojson_source_interop.dart';
 export 'style/sources/vector_source_interop.dart';
 export 'style/style_image_interop.dart';
 export 'style/style_interop.dart';
+export 'style/style_layer_interop.dart';
 export 'ui/camera_interop.dart';
 export 'ui/control/geolocate_control_interop.dart';
 export 'ui/control/logo_control_interop.dart';
 export 'ui/control/navigation_control_interop.dart';
+export 'ui/control/scale_control_interop.dart';
 export 'ui/events_interop.dart';
 export 'ui/handler/box_zoom_interop.dart';
 export 'ui/handler/dblclick_zoom_interop.dart';

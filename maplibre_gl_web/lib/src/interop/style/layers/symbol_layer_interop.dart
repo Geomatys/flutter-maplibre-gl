@@ -1,23 +1,18 @@
-library maplibre.interop.style.layers.symbol_layer;
-
-import 'package:js/js_util.dart';
 import 'package:maplibre_gl_web/src/style/layers/symbol_layer.dart';
 
 class SymbolLayerJsImpl {
-  static toJs(SymbolLayer symbolLayer) => jsify(toDict(symbolLayer));
+  static toJs(SymbolLayer symbolLayer) => toDict(symbolLayer).jsify();
 
   static toDict(SymbolLayer symbolLayer) {
-    Map<String, dynamic> dict = {
-      'id': symbolLayer.id,
-      'type': 'symbol',
-    };
+    final dict = <String, dynamic>{'id': symbolLayer.id, 'type': 'symbol'};
     if (symbolLayer.metadata != null) {
       dict['metadata'] = symbolLayer.metadata;
     }
     if (symbolLayer.source != null) {
-      dict['source'] = symbolLayer.source is String
-          ? symbolLayer.source
-          : symbolLayer.source.dict;
+      dict['source'] =
+          symbolLayer.source is String
+              ? symbolLayer.source
+              : symbolLayer.source.dict;
     }
     if (symbolLayer.sourceLayer != null) {
       dict['source-layer'] = symbolLayer.sourceLayer;
@@ -42,10 +37,10 @@ class SymbolLayerJsImpl {
 }
 
 class SymbolPaintJsImpl {
-  static toJs(SymbolPaint symbolPaint) => jsify(toDict(symbolPaint));
+  static toJs(SymbolPaint symbolPaint) => toDict(symbolPaint).jsify();
 
   static toDict(SymbolPaint symbolPaint) {
-    Map<String, dynamic> dict = {};
+    final dict = <String, dynamic>{};
     if (symbolPaint.iconOpacity != null) {
       dict['icon-opacity'] = symbolPaint.iconOpacity;
     }
@@ -93,10 +88,10 @@ class SymbolPaintJsImpl {
 }
 
 class SymbolLayoutJsImpl {
-  static toJs(SymbolLayout symbolLayout) => jsify(toDict(symbolLayout));
+  static toJs(SymbolLayout symbolLayout) => toDict(symbolLayout).jsify();
 
   static toDict(SymbolLayout symbolLayout) {
-    Map<String, dynamic> dict = {};
+    final dict = <String, dynamic>{};
     if (symbolLayout.symbolAvoidEdges != null) {
       dict['symbol-avoid-edges'] = symbolLayout.symbolAvoidEdges;
     }

@@ -1,4 +1,4 @@
-library maplibre.geo.lng_lat_bounds;
+import 'dart:js_interop';
 
 import 'package:maplibre_gl_web/src/geo/lng_lat.dart';
 import 'package:maplibre_gl_web/src/interop/interop.dart';
@@ -19,14 +19,8 @@ import 'package:maplibre_gl_web/src/interop/interop.dart';
 ///  var ne = new maplibregl.LngLat(-73.9397, 40.8002);
 ///  var llb = new maplibregl.LngLatBounds(sw, ne);
 class LngLatBounds extends JsObjectWrapper<LngLatBoundsJsImpl> {
-  factory LngLatBounds(
-    LngLat sw,
-    LngLat ne,
-  ) =>
-      LngLatBounds.fromJsObject(LngLatBoundsJsImpl(
-        sw.jsObject,
-        ne.jsObject,
-      ));
+  factory LngLatBounds(LngLat sw, LngLat ne) =>
+      LngLatBounds.fromJsObject(LngLatBoundsJsImpl(sw.jsObject, ne.jsObject));
 
   ///  Set the northeast corner of the bounding box
   ///
@@ -99,12 +93,15 @@ class LngLatBounds extends JsObjectWrapper<LngLatBoundsJsImpl> {
 
   ///  Returns the bounding box represented as an array.
   ///
-  ///  @returns {Array<Array<number>>} The bounding box represented as an array, consisting of the
+  ///  @returns `{Array<Array<number>>}` The bounding box represented as an array, consisting of the
   ///    southwest and northeast coordinates of the bounding represented as arrays of numbers.
   ///  @example
   ///  var llb = new maplibregl.LngLatBounds([-73.9876, 40.7661], [-73.9397, 40.8002]);
   ///  llb.toArray(); // = [[-73.9876, 40.7661], [-73.9397, 40.8002]]
-  List<List<num>> toArray() => jsObject.toArray();
+  List<List<num>> toArray() =>
+      (jsObject.toArray() as JSArray).toDart.nonNulls
+          .map((e) => (e as JSArray).toDart.cast<num>())
+          .toList();
 
   ///  Return the bounding box represented as a string.
   ///
@@ -113,6 +110,7 @@ class LngLatBounds extends JsObjectWrapper<LngLatBoundsJsImpl> {
   ///  @example
   ///  var llb = new maplibregl.LngLatBounds([-73.9876, 40.7661], [-73.9397, 40.8002]);
   ///  llb.toString(); // = "LngLatBounds(LngLat(-73.9876, 40.7661), LngLat(-73.9397, 40.8002))"
+  @override
   String toString() => jsObject.toString();
 
   ///  Check if the bounding box is an empty/`null`-type box.
@@ -138,10 +136,9 @@ class LngLatBounds extends JsObjectWrapper<LngLatBoundsJsImpl> {
   ///  var arr = [[-73.9876, 40.7661], [-73.9397, 40.8002]];
   ///  var llb = maplibregl.LngLatBounds.convert(arr);
   ///  llb;   // = LngLatBounds {_sw: LngLat {lng: -73.9876, lat: 40.7661}, _ne: LngLat {lng: -73.9397, lat: 40.8002}}
-  static LngLatBounds convert(dynamic input) =>
-      LngLatBounds.fromJsObject(LngLatBoundsJsImpl.convert(input));
+  LngLatBounds.convert(dynamic input)
+    : this.fromJsObject(lngLatBoundsConvert(input.jsify()));
 
   /// Creates a new LngLatBounds from a [jsObject].
-  LngLatBounds.fromJsObject(LngLatBoundsJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  LngLatBounds.fromJsObject(super.jsObject) : super.fromJsObject();
 }

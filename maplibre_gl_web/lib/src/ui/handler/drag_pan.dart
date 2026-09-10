@@ -1,6 +1,4 @@
-library maplibre.ui.handler.drag_pan;
-
-import 'dart:html';
+import 'package:web/web.dart';
 
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 
@@ -32,6 +30,5 @@ class DragPanHandler extends JsObjectWrapper<DragPanHandlerJsImpl> {
   onTouchStart(TouchEvent e) => jsObject.onTouchStart(e);
 
   /// Creates a new DragPanHandler from a [jsObject].
-  DragPanHandler.fromJsObject(DragPanHandlerJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  DragPanHandler.fromJsObject(super.jsObject) : super.fromJsObject();
 }

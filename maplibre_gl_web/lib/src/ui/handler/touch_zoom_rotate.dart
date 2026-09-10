@@ -1,6 +1,4 @@
-library maplibre.ui.handler.touch_zoom_rotate;
-
-import 'dart:html';
+import 'package:web/web.dart';
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 
 class TouchZoomRotateHandler
@@ -44,6 +42,5 @@ class TouchZoomRotateHandler
   onStart(TouchEvent e) => jsObject.onStart(e);
 
   /// Creates a new TouchZoomRotateHandler from a [jsObject].
-  TouchZoomRotateHandler.fromJsObject(TouchZoomRotateHandlerJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  TouchZoomRotateHandler.fromJsObject(super.jsObject) : super.fromJsObject();
 }

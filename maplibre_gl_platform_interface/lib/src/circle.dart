@@ -4,7 +4,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of maplibre_gl_platform_interface;
+part of '../maplibre_gl_platform_interface.dart';
 
 class Circle implements Annotation {
   Circle(this._id, this.options, [this._data]);
@@ -13,10 +13,13 @@ class Circle implements Annotation {
   ///
   /// The identifier is an arbitrary unique string.
   final String _id;
+
+  @override
   String get id => _id;
 
-  final Map? _data;
-  Map? get data => _data;
+  final Map<String, dynamic>? _data;
+
+  Map<String, dynamic>? get data => _data;
 
   /// The circle configuration options most recently applied programmatically
   /// via the map controller.
@@ -30,14 +33,18 @@ class Circle implements Annotation {
     final geojson = options.toGeoJson();
     geojson["id"] = id;
     geojson["properties"]["id"] = id;
+    if (_data != null) {
+      geojson["properties"].addAll(_data);
+    }
 
     return geojson;
   }
 
   @override
   void translate(LatLng delta) {
-    options = options
-        .copyWith(CircleOptions(geometry: this.options.geometry! + delta));
+    options = options.copyWith(
+      CircleOptions(geometry: options.geometry! + delta),
+    );
   }
 }
 
@@ -89,7 +96,7 @@ class CircleOptions {
   }
 
   dynamic toJson([bool addGeometry = true]) {
-    final Map<String, dynamic> json = <String, dynamic>{};
+    final json = <String, dynamic>{};
 
     void addIfPresent(String fieldName, dynamic value) {
       if (value != null) {
@@ -117,8 +124,8 @@ class CircleOptions {
       "properties": toJson(false),
       "geometry": {
         "type": "Point",
-        "coordinates": geometry!.toGeoJsonCoordinates()
-      }
+        "coordinates": geometry!.toGeoJsonCoordinates(),
+      },
     };
   }
 }

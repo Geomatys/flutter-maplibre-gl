@@ -1,5 +1,3 @@
-library maplibre.ui.handler.keyboard;
-
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 
 class KeyboardHandler extends JsObjectWrapper<KeyboardHandlerJsImpl> {
@@ -12,15 +10,14 @@ class KeyboardHandler extends JsObjectWrapper<KeyboardHandlerJsImpl> {
   ///
   ///  @example
   ///  map.keyboard.enable();
-  bool enable() => jsObject.enable();
+  bool enable() => jsObject.enable() ?? true;
 
   ///  Disables keyboard interaction.
   ///
   ///  @example
   ///  map.keyboard.disable();
-  bool disable() => jsObject.disable();
+  bool disable() => jsObject.disable() ?? false;
 
   /// Creates a new KeyboardHandler from a [jsObject].
-  KeyboardHandler.fromJsObject(KeyboardHandlerJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  KeyboardHandler.fromJsObject(super.jsObject) : super.fromJsObject();
 }

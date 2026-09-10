@@ -2,10 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of maplibre_gl_platform_interface;
+part of '../maplibre_gl_platform_interface.dart';
 
 /// Callback function taking a single argument.
-typedef void ArgumentCallback<T>(T argument);
+typedef ArgumentCallback<T> = void Function(T argument);
 
 /// Mutable collection of [ArgumentCallback] instances, itself an [ArgumentCallback].
 ///
@@ -23,12 +23,11 @@ class ArgumentCallbacks<T> {
   /// method and is unaffected by any changes subsequently made to this
   /// collection.
   void call(T argument) {
-    final int length = _callbacks.length;
+    final length = _callbacks.length;
     if (length == 1) {
       _callbacks[0].call(argument);
     } else if (0 < length) {
-      for (ArgumentCallback<T> callback
-          in List<ArgumentCallback<T>>.from(_callbacks)) {
+      for (final callback in List<ArgumentCallback<T>>.from(_callbacks)) {
         callback(argument);
       }
     }

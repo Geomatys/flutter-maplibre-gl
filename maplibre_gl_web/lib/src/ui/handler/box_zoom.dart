@@ -1,6 +1,4 @@
-library maplibre.ui.handler.box_zoom;
-
-import 'dart:html';
+import 'package:web/web.dart';
 
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 
@@ -30,6 +28,5 @@ class BoxZoomHandler extends JsObjectWrapper<BoxZoomHandlerJsImpl> {
   onMouseDown(MouseEvent e) => jsObject.onMouseDown(e);
 
   /// Creates a new BoxZoomHandler from a [jsObject].
-  BoxZoomHandler.fromJsObject(BoxZoomHandlerJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  BoxZoomHandler.fromJsObject(super.jsObject) : super.fromJsObject();
 }

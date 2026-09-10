@@ -1,57 +1,63 @@
-library maplibre.ui.control.geolocate_control;
-
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 import 'package:maplibre_gl_web/src/ui/map.dart';
 import 'package:maplibre_gl_web/src/util/evented.dart';
 
 class GeolocateControlOptions
     extends JsObjectWrapper<GeolocateControlOptionsJsImpl> {
-  PositionOptions get positionOptions =>
-      PositionOptions.fromJsObject(jsObject.positionOptions);
+  PositionOptions? get positionOptions =>
+      jsObject.positionOptions != null
+          ? PositionOptions.fromJsObject(jsObject.positionOptions!)
+          : null;
   dynamic get fitBoundsOptions => jsObject.fitBoundsOptions;
-  bool get trackUserLocation => jsObject.trackUserLocation;
-  bool get showAccuracyCircle => jsObject.showAccuracyCircle;
-  bool get showUserLocation => jsObject.showUserLocation;
+  bool? get trackUserLocation => jsObject.trackUserLocation;
+  bool? get showAccuracyCircle => jsObject.showAccuracyCircle;
+  bool? get showUserLocation => jsObject.showUserLocation;
 
   factory GeolocateControlOptions({
-    required PositionOptions positionOptions,
+    PositionOptions? positionOptions,
     dynamic fitBoundsOptions,
     bool? trackUserLocation,
     bool? showAccuracyCircle,
     bool? showUserLocation,
-  }) =>
-      GeolocateControlOptions.fromJsObject(GeolocateControlOptionsJsImpl(
-        positionOptions: positionOptions.jsObject,
-        fitBoundsOptions: fitBoundsOptions,
-        trackUserLocation: trackUserLocation,
-        showAccuracyCircle: showAccuracyCircle,
-        showUserLocation: showUserLocation,
-      ));
+  }) {
+    final jsImpl = GeolocateControlOptionsJsImpl();
+    if (positionOptions != null) {
+      jsImpl.positionOptions = positionOptions.jsObject;
+    }
+    if (fitBoundsOptions != null) jsImpl.fitBoundsOptions = fitBoundsOptions;
+    if (trackUserLocation != null) jsImpl.trackUserLocation = trackUserLocation;
+    if (showAccuracyCircle != null) {
+      jsImpl.showAccuracyCircle = showAccuracyCircle;
+    }
+    if (showUserLocation != null) jsImpl.showUserLocation = showUserLocation;
+    return GeolocateControlOptions.fromJsObject(jsImpl);
+  }
 
   /// Creates a new MapOptions from a [jsObject].
-  GeolocateControlOptions.fromJsObject(GeolocateControlOptionsJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  GeolocateControlOptions.fromJsObject(super.jsObject) : super.fromJsObject();
 }
 
 class PositionOptions extends JsObjectWrapper<PositionOptionsJsImpl> {
-  bool get enableHighAccuracy => jsObject.enableHighAccuracy;
-  num get maximumAge => jsObject.maximumAge;
-  num get timeout => jsObject.timeout;
+  bool? get enableHighAccuracy => jsObject.enableHighAccuracy;
+  num? get maximumAge => jsObject.maximumAge;
+  num? get timeout => jsObject.timeout;
 
   factory PositionOptions({
     bool? enableHighAccuracy,
     num? maximumAge,
     num? timeout,
-  }) =>
-      PositionOptions.fromJsObject(PositionOptionsJsImpl(
-        enableHighAccuracy: enableHighAccuracy,
-        maximumAge: maximumAge,
-        timeout: timeout,
-      ));
+  }) {
+    final jsImpl = PositionOptionsJsImpl();
+    if (enableHighAccuracy != null) {
+      jsImpl.enableHighAccuracy = enableHighAccuracy;
+    }
+    if (maximumAge != null) jsImpl.maximumAge = maximumAge;
+    if (timeout != null) jsImpl.timeout = timeout;
+    return PositionOptions.fromJsObject(jsImpl);
+  }
 
   /// Creates a new MapOptions from a [jsObject].
-  PositionOptions.fromJsObject(PositionOptionsJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  PositionOptions.fromJsObject(super.jsObject) : super.fromJsObject();
 }
 
 /// A `GeolocateControl` control provides a button that uses the browser's geolocation
@@ -86,6 +92,7 @@ class PositionOptions extends JsObjectWrapper<PositionOptionsJsImpl> {
 /// }));
 /// @see [Locate the user](https://maplibre.org/maplibre-gl-js/docs/examples/locate-user/)
 class GeolocateControl extends Evented {
+  @override
   final GeolocateControlJsImpl jsObject;
   GeolocateControlOptions get options =>
       GeolocateControlOptions.fromJsObject(jsObject.options);
@@ -100,8 +107,32 @@ class GeolocateControl extends Evented {
   /// Trigger a geolocation
   ///
   /// @returns {boolean} Returns `false` if called before control was added to a map, otherwise returns `true`.
-  trigger() => jsObject.trigger();
+  bool trigger() => jsObject.trigger();
 
   /// Creates a new Camera from a [jsObject].
   GeolocateControl.fromJsObject(this.jsObject) : super.fromJsObject(jsObject);
+}
+
+/// Dart wrapper for the geolocate event data.
+/// The MapLibre GL JS 'geolocate' event contains the browser's
+/// GeolocationPosition properties (coords, timestamp) spread onto the event.
+class GeolocateResultEvent extends JsObjectWrapper<GeolocateResultEventJsImpl> {
+  GeolocationCoords get coords =>
+      GeolocationCoords.fromJsObject(jsObject.coords);
+  num get timestamp => jsObject.timestamp;
+
+  GeolocateResultEvent.fromJsObject(super.jsObject) : super.fromJsObject();
+}
+
+/// Dart wrapper for the browser's GeolocationCoordinates interface.
+class GeolocationCoords extends JsObjectWrapper<GeolocationCoordsJsImpl> {
+  num get latitude => jsObject.latitude;
+  num get longitude => jsObject.longitude;
+  num? get altitude => jsObject.altitude;
+  num? get accuracy => jsObject.accuracy;
+  num? get altitudeAccuracy => jsObject.altitudeAccuracy;
+  num? get heading => jsObject.heading;
+  num? get speed => jsObject.speed;
+
+  GeolocationCoords.fromJsObject(super.jsObject) : super.fromJsObject();
 }

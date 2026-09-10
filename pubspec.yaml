@@ -1,41 +1,91 @@
-name: maplibre_gl
-description: A Flutter plugin for integrating Maplibre Maps inside a Flutter application on Android, iOS and web platforms.
-version: 0.18.0
-homepage: https://github.com/maplibre/flutter-maplibre-gl
-
-dependencies:
-  flutter:
-    sdk: flutter
-  maplibre_gl_platform_interface:
-    git:
-      url: https://github.com/maplibre/flutter-maplibre-gl.git
-      path: maplibre_gl_platform_interface
-      ref: main
-  maplibre_gl_web:
-    git:
-      url: https://github.com/maplibre/flutter-maplibre-gl.git
-      path: maplibre_gl_web
-      ref: main
-
-dependency_overrides:
-  maplibre_gl_platform_interface:
-    path: ./maplibre_gl_platform_interface
-  maplibre_gl_web:
-    path: ./maplibre_gl_web
-
-flutter:
-  plugin:
-    platforms:
-      android:
-        package: com.mapbox.mapboxgl
-        pluginClass: MapboxMapsPlugin
-      ios:
-        pluginClass: MapboxMapsPlugin
-      web:
-        default_package: maplibre_gl_web
+name: maplibre_gl_workspace
+publish_to: 'none'
+repository: https://github.com/maplibre/flutter-maplibre-gl
+issue_tracker: https://github.com/maplibre/flutter-maplibre-gl/issues
 
 environment:
-  # Flutter 2.15 is the required min to be able to use Enum.name
-  sdk: '>=2.15.0 <3.0.0'
-  flutter: ">=2.8.1"
+  sdk: '>=3.7.0 <4.0.0'
 
+dev_dependencies:
+  melos: ^7.4.0
+  very_good_analysis: ^10.0.0
+
+workspace:
+  - scripts
+  - maplibre_gl
+  - maplibre_gl_web
+  - maplibre_gl_example
+  - maplibre_gl_platform_interface
+
+melos:
+  scripts:
+    generate:
+      description: Generate layer & source properties
+      exec: dart run lib/generate.dart
+      packageFilters:
+        scope: maplibre_code_gen
+
+    check-style-spec:
+      description: Verify input/style.json matches the pinned upstream MapLibre style spec
+      exec: dart run lib/check_style_spec.dart
+      packageFilters:
+        scope: maplibre_code_gen
+
+    update-style-spec:
+      description: Re-download input/style.json from the latest upstream style spec release
+      exec: dart run lib/check_style_spec.dart --update
+      packageFilters:
+        scope: maplibre_code_gen
+
+    test:
+      description: Run all tests
+      run: |
+        set -e
+        melos run test:io
+        melos run test:web
+        melos run test:scripts
+
+    test:scripts:
+      description: Run the code generator tests
+      exec: dart test
+      packageFilters:
+        scope: maplibre_code_gen
+
+    test:io:
+      description: Run IO tests
+      exec: flutter test
+      packageFilters:
+        scope:
+          - maplibre_gl_platform_interface
+          - maplibre_gl
+
+    test:io:coverage:
+      description: Run IO tests with coverage
+      exec: flutter test --coverage
+      packageFilters:
+        scope:
+          - maplibre_gl_platform_interface
+          - maplibre_gl
+
+    test:web:
+      description: Run Web tests
+      exec: flutter test --platform chrome
+      packageFilters:
+        scope:
+          - maplibre_gl_platform_interface
+          - maplibre_gl
+          - maplibre_gl_web
+
+    analyze-all:
+      description: Run static analysis on all packages
+      run: |
+        melos exec --concurrency 10 -- "dart analyze --fatal-warnings --fatal-infos"
+
+    format-all:
+      description: Format all packages
+      exec: dart format --set-exit-if-changed .
+
+    fix-all:
+      run: |
+        melos exec --concurrency 10 -- "dart fix --apply"
+        melos exec --concurrency 10 -- "dart format -o write ."

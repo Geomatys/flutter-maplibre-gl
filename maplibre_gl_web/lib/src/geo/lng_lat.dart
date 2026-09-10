@@ -1,4 +1,4 @@
-library maplibre.geo.lng_lat;
+import 'dart:js_interop';
 
 import 'package:maplibre_gl_web/src/geo/lng_lat_bounds.dart';
 import 'package:maplibre_gl_web/src/interop/interop.dart';
@@ -24,14 +24,8 @@ class LngLat extends JsObjectWrapper<LngLatJsImpl> {
 
   num get lat => jsObject.lat;
 
-  factory LngLat(
-    num lng,
-    num lat,
-  ) =>
-      LngLat.fromJsObject(LngLatJsImpl(
-        lng,
-        lat,
-      ));
+  factory LngLat(num lng, num lat) =>
+      LngLat.fromJsObject(LngLatJsImpl(lng, lat));
 
   /// Returns a new `LngLat` object whose longitude is wrapped to the range (-180, 180).
   ///
@@ -44,11 +38,13 @@ class LngLat extends JsObjectWrapper<LngLatJsImpl> {
 
   ///  Returns the coordinates represented as an array of two numbers.
   ///
-  ///  @returns {Array<number>} The coordinates represeted as an array of longitude and latitude.
+  ///  @returns `{Array<number>}` The coordinates represeted as an array of longitude and latitude.
   ///  @example
   ///  var ll = new maplibregl.LngLat(-73.9749, 40.7736);
   ///  ll.toArray(); // = [-73.9749, 40.7736]
-  List<num> toArray() => jsObject.toArray();
+  ///
+  List<num> toArray() =>
+      jsObject.toArray().toDart.map((jsNum) => jsNum.toDartDouble).toList();
 
   ///  Returns the coordinates represent as a string.
   ///
@@ -56,6 +52,7 @@ class LngLat extends JsObjectWrapper<LngLatJsImpl> {
   ///  @example
   ///  var ll = new maplibregl.LngLat(-73.9749, 40.7736);
   ///  ll.toString(); // = "LngLat(-73.9749, 40.7736)"
+  @override
   String toString() => jsObject.toString();
 
   ///  Returns a `LngLatBounds` from the coordinates extended by a given `radius`. The returned `LngLatBounds` completely contains the `radius`.
@@ -79,9 +76,8 @@ class LngLat extends JsObjectWrapper<LngLatJsImpl> {
   ///  var arr = [-73.9749, 40.7736];
   ///  var ll = maplibregl.LngLat.convert(arr);
   ///  ll;   // = LngLat {lng: -73.9749, lat: 40.7736}
-  static LngLat convert(dynamic input) =>
-      LngLat.fromJsObject(LngLatJsImpl.convert(input));
+  LngLat.convert(dynamic input) : this.fromJsObject(lngLatConvert(input));
 
   /// Creates a new LngLat from a [jsObject].
-  LngLat.fromJsObject(LngLatJsImpl jsObject) : super.fromJsObject(jsObject);
+  LngLat.fromJsObject(super.jsObject) : super.fromJsObject();
 }

@@ -1,5 +1,3 @@
-library maplibre.style.evaluation_parameters;
-
 import 'package:maplibre_gl_web/src/interop/interop.dart';
 
 class EvaluationParameters extends JsObjectWrapper<EvaluationParametersJsImpl> {
@@ -11,7 +9,8 @@ class EvaluationParameters extends JsObjectWrapper<EvaluationParametersJsImpl> {
 
   factory EvaluationParameters(num zoom, [dynamic options]) =>
       EvaluationParameters.fromJsObject(
-          EvaluationParametersJsImpl(zoom, options));
+        EvaluationParametersJsImpl(zoom, options),
+      );
 
   bool isSupportedScript(String str) => jsObject.isSupportedScript(str);
 
@@ -20,6 +19,5 @@ class EvaluationParameters extends JsObjectWrapper<EvaluationParametersJsImpl> {
   dynamic getCrossfadeParameters() => jsObject.getCrossfadeParameters();
 
   /// Creates a new EvaluationParameters from a [jsObject].
-  EvaluationParameters.fromJsObject(EvaluationParametersJsImpl jsObject)
-      : super.fromJsObject(jsObject);
+  EvaluationParameters.fromJsObject(super.jsObject) : super.fromJsObject();
 }
